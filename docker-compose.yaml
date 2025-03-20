@@ -16,6 +16,7 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_HOSTNAME: architecture-sprint-8-keycloak-1
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak_db
       KC_DB_USERNAME: keycloak_user
@@ -36,8 +37,9 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - KEYCLOAK_URL=http://keycloak:8080
-      - REALM_NAME=reports-realm
+      - KEYCLOAK_URL=http://architecture-sprint-8-keycloak-1:8080
+      - JWKS_URL=http://architecture-sprint-8-keycloak-1:8080/realms/reports-realm/protocol/openid-connect/certs
+      - REALM=reports-realm
       - CLIENT_ID=reports-frontend
       - API_SECRET=<your-secret>
     depends_on:
@@ -46,7 +48,6 @@ services:
   frontend:
     build:
       context: ./frontend
-      container_name: reports-frontend
     ports:
       - "3000:3000"
     environment:

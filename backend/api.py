@@ -4,7 +4,7 @@ from jose import jwt, JWTError
 import requests
 import json
 
-KEYCLOAK_URL = "http://localhost:8080"
+KEYCLOAK_URL = "http://architecture-sprint-8-keycloak-1:8080"
 REALM = "reports-realm"
 CLIENT_ID = "reports-frontend"
 JWKS_URL = f"{KEYCLOAK_URL}/realms/{REALM}/protocol/openid-connect/certs"
@@ -12,6 +12,7 @@ JWKS_URL = f"{KEYCLOAK_URL}/realms/{REALM}/protocol/openid-connect/certs"
 app = FastAPI()
 
 oauth2_scheme = OAuth2AuthorizationCodeBearer(
+    authorizationUrl=f"{KEYCLOAK_URL}/realms/{REALM}/protocol/openid-connect/auth",
     tokenUrl=f"{KEYCLOAK_URL}/realms/{REALM}/protocol/openid-connect/token"
 )
 
@@ -52,7 +53,7 @@ def get_reports(user=Depends(get_current_user)):
         "user": user["preferred_username"],
         "report": {
             "device_id": "72384792384",
-            "device_name": "SANDALI-3000"
+            "device_name": "SANDALI-3000",
             "uptime": "1000 hours",
             "error_logs": ["No errors detected"],
             "battery_health": "22%"

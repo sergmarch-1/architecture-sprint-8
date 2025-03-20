@@ -18,11 +18,6 @@ const ReportPage: React.FC = () => {
 
       // обноление токена перед запросом
       await keycloak.updateToken(30);
-    } catch (error) {
-      setError('Failed to refresh token');
-      keycloak.logout(); // перенаправление юзера
-      return;
-    }
 
       const response = await fetch(`${process.env.REACT_APP_API_URL}/reports`, {
         headers: {
